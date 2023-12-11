@@ -1,32 +1,27 @@
 {
-  "name": "Manage-student-system",
+  "name": "manage-student-system",
   "version": "1.0.0",
-  "description": "MySQL, Express, web application",
-  "main": "index.js",
+  "description": "",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "watch": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.5.1",
-    "body-parser": "^1.20.2",
+    "@adminjs/express": "^5.0.0",
+    "adminjs": "^6.8.7",
     "compression": "^1.7.4",
+    "connect-pg-simple": "^9.0.1",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
     "ejs-locals": "^1.0.2",
     "express": "^4.18.2",
-    "path": "^0.12.7",
-    "squel": "^5.13.0"
+    "express-formidable": "^1.2.0",
+    "express-session": "^1.17.3",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
-  },
-  "engines": {
-    "node": ">= 6.9.0",
-    "npm": ">= 3.10.8"
+    "nodemon": "^3.0.2"
   }
 }

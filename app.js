@@ -1,39 +1,58 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
-const compression = require('compression')
-var path = require('path');
-require('dotenv').config();
-// http://127.0.0.1:3000
+const compression = require('compression'); 
+const AdminJS = require('adminjs');
+const AdminJSExpress = require('@adminjs/express');
+// const connect = require('connect-pg-simple');
+
 const app = express();
 
-const port = process.env.PORT || 3000;
-const host = process.env.HOST || 'localhost';
-// set up domain 
+const port = 3000;
+const host = '127.0.0.1';
+
 app.set('port', port);
 app.set('host', host);
 
-// setup network security 
+//set network security for deployed
 app.use(cors());
 app.options('*', cors());
 
-
-// setup compression for increased performance
+//zip
 app.use(compression());
 
-// limit date to post in json 
-app.use(bodyParser.json({limit: '50mb'}));
-
-//set up static files
-app.use(express.static(path.join(__dirname, './public')));
-app.engine('ejs',require('ejs-locals'));
+app.engine('ejs', require('ejs-locals'));
 app.set('view engine', 'ejs');
-app.set('views',path.join(__dirname,'views'));
+ 
 
-app.use('',(req,res)=>{
-    res.render('home.ejs');
-})
+const admin = new AdminJS({})
+admin.watch();
 
-app.listen(app.get('port'), app.get('host'),()=>{
-    console.log(`Server is running at http://${app.get('host')}:${app.get('port')}`)
-})
+const DEFAULT_ADMIN = {
+    email: 'admin@example.com',
+    password: 'password',
+}
+const authenticate = async (email, password) => {
+    if (email === DEFAULT_ADMIN.email && password === DEFAULT_ADMIN.password) {
+      return Promise.resolve(DEFAULT_ADMIN)
+    }
+    return null
+}
+const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
+    admin,
+    {
+      authenticate,
+    },
+    null,
+    {
+      
+      resave: false,
+      saveUninitialized: true,
+        }
+  )
+
+  app.get('/admin', adminRouter)
+
+app.listen(app.get('port'), app.get('host'), () => {   
+    console.log('server listening on port http://127.0.0.1:3000');
+});
+
